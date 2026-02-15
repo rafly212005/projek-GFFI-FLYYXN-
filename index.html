@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>GFFI</title>
+
+<meta name="theme-color" content="#FFD700">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<style>
+:root{
+ --bg:#050400;--bg-grad:#2a2300;--text:#fffbe6;
+ --glass:rgba(255,215,0,.12);--border:rgba(255,215,0,.55);
+ --gold1:#FFD700;--gold2:#FFB700;--gold3:#FFF1A8;
+ --cyan:#00ffff;
+ --particle:rgba(255,215,0,.6);
+}
+.light{
+ --bg:#fff8dc;--bg-grad:#fff3c4;--text:#2a1f00;
+}
+.ultra *{animation:none!important;transition:none!important}
+
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:radial-gradient(circle at top,var(--bg-grad),var(--bg));
+ color:var(--text);
+ font-family:Arial,sans-serif;
+ text-align:center;
+ overflow-x:hidden;
+}
+
+canvas{position:fixed;inset:0;z-index:0}
+
+header,nav,.page,footer,.topbar{
+ position:relative;
+ z-index:1;
+ padding:0 12px;
+ max-width:480px;
+ margin:auto;
+}
+
+/* LOADER */
+#loader{
+ position:fixed;inset:0;
+ background:#050400;
+ display:flex;align-items:center;justify-content:center;
+ z-index:99;color:#FFD700;font-weight:bold;
+}
+
+/* TOPBAR */
+.topbar{
+ display:flex;justify-content:space-between;align-items:center;
+ padding:10px;font-size:11px;
+ background:var(--glass);
+ border-bottom:1px solid var(--border);
+}
+
+/* TITLE */
+h1{
+ font-size:28px;
+ color:var(--gold1);
+ text-shadow:0 0 20px var(--gold1);
+}
+
+/* NAV */
+nav{
+ display:flex;gap:8px;justify-content:center;
+ margin-bottom:10px;flex-wrap:wrap;
+}
+.btn{
+ padding:12px 14px;border-radius:14px;
+ background:linear-gradient(135deg,var(--gold1),var(--gold2));
+ color:#000;font-weight:bold;cursor:pointer;
+ border:1px solid var(--border);
+ min-height:44px;font-size:14px;
+}
+.btn.active{box-shadow:0 0 18px var(--gold1)}
+
+.page{display:none}
+.page.show{display:block}
+
+/* BOX */
+.neon{
+ margin:14px auto;padding:16px;border-radius:18px;
+ background:rgba(255,215,0,.18);
+ border:1px solid var(--border);
+ box-shadow:0 0 18px rgba(255,215,0,.35);
+}
+
+/* ADMIN UTAMA */
+.admin-main{
+ border:2px solid var(--cyan);
+ box-shadow:0 0 25px var(--cyan);
+}
+
+/* GRID */
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+ gap:12px;
+}
+.card{
+ height:90px;border-radius:18px;
+ border:1px solid var(--border);
+ background:rgba(255,215,0,.18);
+ display:flex;align-items:center;justify-content:center;
+ font-weight:bold;cursor:pointer;
+}
+
+/* AVATAR */
+.avatar{
+ width:90px;height:90px;border-radius:50%;
+ background:linear-gradient(135deg,var(--gold1),var(--gold3));
+ display:flex;align-items:center;justify-content:center;
+ font-size:32px;font-weight:bold;color:#000;
+ margin:auto;box-shadow:0 0 18px var(--gold1);
+}
+
+/* BUBBLE */
+.bubble{
+ display:inline-block;margin:6px;
+ padding:8px 12px;border-radius:999px;
+ border:1px solid var(--border);
+ background:rgba(255,215,0,.15);
+ cursor:pointer;font-size:12px;
+}
+
+/* CHAT BOT */
+.chatbox{
+ width:100%;height:75vh;
+ background:#000c;border-radius:18px;
+ border:2px solid var(--cyan);
+ box-shadow:0 0 30px var(--cyan);
+ display:flex;flex-direction:column;
+}
+.chatbox header{
+ padding:12px;font-weight:bold;
+ color:var(--cyan);
+ border-bottom:1px solid #333;
+ text-shadow:0 0 14px var(--cyan);
+}
+.chat{
+ flex:1;overflow-y:auto;
+ padding:12px;display:flex;
+ flex-direction:column;gap:10px;
+}
+.message{
+ padding:12px 14px;border-radius:18px;
+ max-width:90%;font-size:13px;
+ animation:fade .25s ease;
+}
+.user{
+ align-self:flex-end;
+ background:linear-gradient(90deg,#00d4ff,#00ffff);
+ color:#000;
+}
+.bot{
+ align-self:flex-start;
+ background:linear-gradient(90deg,#ff007f,#ff4081);
+}
+.menu-item{
+ background:#111;padding:12px;border-radius:12px;
+ cursor:pointer;border:1px solid var(--cyan);
+ box-shadow:0 0 12px #00ffff55;
+}
+.menu-item:hover{box-shadow:0 0 22px var(--cyan)}
+
+footer{font-size:11px;color:#c9b458;margin:20px}
+
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+</style>
+</head>
+
+<body>
+<div id="loader">GFFI LOADING...</div>
+<canvas id="bg"></canvas>
+
+<div class="topbar">
+ <div id="device">📱</div>
+ <div>
+  <span id="clock">00:00</span> |
+  <span onclick="toggleTheme()">🌙</span> |
+  <span onclick="toggleUltra()">⚡</span>
+ </div>
+</div>
+
+<header><h1>GFFI</h1></header>
+
+<nav>
+ <div class="btn active" onclick="openPage('home',this)">BERANDA</div>
+ <div class="btn" onclick="openPage('game',this)">GAME</div>
+ <div class="btn" onclick="openPage('chatbot',this)">CHAT BOT</div>
+ <div class="btn" onclick="openPage('bantuan',this)">BANTUAN</div>
+</nav>
+
+<!-- HOME -->
+<div id="home" class="page show">
+ <div class="neon">
+  <b>GRUP & SALURAN</b><br><br>
+  <div class="btn" onclick="openLink('https://chat.whatsapp.com/KoyczMj50VXGWq8xj9SxtI')">Grup WhatsApp</div><br><br>
+  <div class="btn" onclick="openLink('https://whatsapp.com/channel/0029VajNKZaFHWq7PubYNp3k')">Saluran WhatsApp</div>
+ </div>
+
+ <div class="neon admin-main">
+  <b>⭐ ADMIN UTAMA</b><br><br>
+  <div class="avatar">R</div><br>
+  <div class="btn" onclick="chatWA('6285857797517')">Chat Admin Rafly</div>
+ </div>
+
+ <div class="neon">
+  <b>ADMIN LAINNYA</b><br><br>
+  <div class="bubble" onclick="chatWA('6281235724413')">Asep</div>
+  <div class="bubble" onclick="chatWA('6282263006141')">Ara</div>
+  <div class="bubble" onclick="chatWA('6289518003341')">Ermi</div>
+  <div class="bubble" onclick="chatWA('6282180596663')">Farhan</div>
+  <div class="bubble" onclick="chatWA('6282291488841')">Radit</div>
+  <div class="bubble" onclick="chatWA('6285230685677')">Nur</div>
+  <div class="bubble" onclick="chatWA('6283119462052')">Lia</div>
+ </div>
+</div>
+
+<!-- GAME -->
+<div id="game" class="page">
+ <div class="grid">
+  <div class="card" onclick="openLink('https://snake-gffi.netlify.app')">🐍 Snake</div>
+  <div class="card" onclick="openLink('https://gffisos.netlify.app')">🆘 SOS</div>
+  <div class="card" onclick="openLink('https://gffi-guess01.netlify.app')">❓ Guess</div>
+  <div class="card" onclick="openLink('https://dombadanserigala.netlify.app')">🐑🐺 Domba</div>
+ </div>
+</div>
+
+<!-- CHAT BOT -->
+<div id="chatbot" class="page">
+ <div class="chatbox">
+  <header>🤖 GFFI Chat Bot</header>
+  <div class="chat" id="chat"></div>
+  <div class="btn" onclick="restartBot()">Restart Bot</div>
+ </div>
+</div>
+
+<!-- BANTUAN -->
+<div id="bantuan" class="page">
+ <div class="neon">
+  <div class="bubble" onclick="chatWA('6285857797517')">💬 Customer Service</div>
+ </div>
+</div>
+
+<footer>© WEB RESMI GFFI</footer>
+
+<script>
+/* BASIC */
+setTimeout(()=>loader.style.display="none",700)
+function openPage(id,el){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'))
+ document.getElementById(id).classList.add('show')
+ document.querySelectorAll('.btn').forEach(b=>b.classList.remove('active'))
+ el.classList.add('active')
+}
+function openLink(u){window.open(u,'_blank')}
+function chatWA(n){window.open("https://wa.me/"+n)}
+setInterval(()=>clock.textContent=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}),1000)
+device.textContent=/Android/i.test(navigator.userAgent)?"🤖 Android":/iPhone/i.test(navigator.userAgent)?"🍎 iPhone":"💻 Desktop"
+function toggleTheme(){document.body.classList.toggle("light")}
+function toggleUltra(){document.body.classList.toggle("ultra")}
+
+/* PARTICLE */
+const c=bg,x=c.getContext("2d")
+let w,h
+let p=[...Array(60)].map(()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.5+.5}))
+function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
+addEventListener("resize",resize);resize()
+;(function draw(){
+ x.clearRect(0,0,w,h)
+ x.fillStyle=getComputedStyle(document.body).getPropertyValue("--particle")
+ p.forEach(s=>{s.y+=0.25;if(s.y>h)s.y=0;x.beginPath();x.arc(s.x,s.y,s.r,0,7);x.fill()})
+ requestAnimationFrame(draw)
+})()
+
+/* CHAT BOT */
+const menuData={
+ "!Menu":[
+  {name:"Download"},
+  {name:"Link Grup/Saluran"},
+  {name:"Menu Game GFFI 🎮"},
+  {name:"Kode Redeem FF 🎁"},
+  {name:"Nomor Admin"},
+  {name:"Peraturan Grup 📜"}
+ ],
+ "Download":[
+  {name:"Free Fire 🔥",link:"https://play.google.com/store/apps/details?id=com.dts.freefireth"},
+  {name:"Free Fire Max ⚡",link:"https://play.google.com/store/apps/details?id=com.dts.freefiremax"}
+ ],
+ "Link Grup/Saluran":[
+  {name:"Grup GFFI 💬",link:"https://chat.whatsapp.com/KoyczMj50VXGWq8xj9SxtI"},
+  {name:"Saluran GFFI 📢",link:"https://whatsapp.com/channel/0029VajNKZaFHWq7PubYNp3k"}
+ ],
+ "Menu Game GFFI 🎮":[
+  {name:"Snake 🐍",link:"https://snake-gffi.netlify.app"},
+  {name:"SOS 🆘",link:"https://gffisos.netlify.app"},
+  {name:"Guess 🎯",link:"https://gffi-guess01.netlify.app"},
+  {name:"Domba 🐑🐺",link:"https://dombadanserigala.netlify.app"}
+ ],
+ "Kode Redeem FF 🎁":[
+  {name:"Website Redeem Garena",link:"https://reward.ff.garena.com/id"}
+ ],
+ "Peraturan Grup 📜":[
+  {name:"📜 Tidak spam\n🚫 Tidak toxic\n❌ Tidak cheat\n🔞 No 18+\n⚠️ Melanggar = kick"}
+ ],
+ "Nomor Admin":[
+  {name:"⭐ Rafly",link:"https://wa.me/6285857797517"},
+  {name:"Ara",link:"https://wa.me/6282263006141"},
+  {name:"Lia",link:"https://wa.me/6283119462052"},
+  {name:"Asep",link:"https://wa.me/6281235724413"},
+  {name:"Ermi",link:"https://wa.me/6289518003341"},
+  {name:"Farhan",link:"https://wa.me/6282180596663"},
+  {name:"Radit",link:"https://wa.me/6282291488841"},
+  {name:"Nur",link:"https://wa.me/6285230685677"}
+ ]
+}
+
+const chat=document.getElementById("chat")
+function addMsg(sender,content){
+ const d=document.createElement("div")
+ d.className="message "+sender
+ if(Array.isArray(content)){
+  content.forEach(i=>{
+   const m=document.createElement("div")
+   m.className="menu-item"
+   m.textContent=i.name
+   m.onclick=()=>{
+    addMsg("user",i.name)
+    if(i.link) openLink(i.link)
+    else setTimeout(()=>addMsg("bot",menuData[i.name]),300)
+   }
+   d.appendChild(m)
+  })
+ }else d.textContent=content
+ chat.appendChild(d);chat.scrollTop=chat.scrollHeight
+}
+function restartBot(){
+ chat.innerHTML=""
+ addMsg("bot","Halo! Selamat datang di GFFI Chat Bot 🤖")
+ setTimeout(()=>addMsg("bot",menuData["!Menu"]),400)
+}
+restartBot()
+</script>
+</body>
+</html>
