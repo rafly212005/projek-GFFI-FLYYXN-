@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Berpura-Pura Tiada & Gagal - Flipbook HP</title>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Turn.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/4.1.0/turn.min.js"></script>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background: #1b1b1b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+#book {
+  width: 90vw;
+  max-width: 400px;
+  height: 70vh;
+  max-height: 600px;
+  position: relative;
+}
+
+/* Halaman */
+.page {
+  width: 100%;
+  height: 100%;
+  background: #1a1a1a;
+  color: #0ff;
+  text-shadow: 0 0 5px #0ff;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  font-size: 16px;
+  border: 2px solid #0ff;
+  border-radius: 10px;
+}
+
+/* Judul halaman */
+h2 {
+  text-align: center;
+  color: #0ff;
+  text-shadow: 0 0 8px #0ff;
+  font-size: 20px;
+}
+
+/* Tombol download */
+a.download {
+  display: block;
+  margin: 12px 0;
+  padding: 8px 12px;
+  background: #111;
+  color: #ff0;
+  text-decoration: none;
+  text-align: center;
+  border: 2px solid #ff0;
+  border-radius: 8px;
+  font-weight: bold;
+  text-shadow: 0 0 5px #ff0;
+}
+a.download:hover {
+  background: #ff0;
+  color: #111;
+  box-shadow: 0 0 15px #ff0;
+}
+
+/* Tombol navigasi */
+.nav-btn {
+  margin: 10px;
+  padding: 8px 20px;
+  background: #111;
+  border: 2px solid #0ff;
+  border-radius: 10px;
+  color: #0ff;
+  font-size: 16px;
+  cursor: pointer;
+  text-shadow: 0 0 5px #0ff;
+  transition: all 0.2s ease-in-out;
+}
+.nav-btn:hover {
+  background: #0ff;
+  color: #111;
+  box-shadow: 0 0 15px #0ff;
+}
+.nav-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 15px;
+}
+</style>
+</head>
+<body>
+
+<div id="book">
+  <div class="page"><h2>Halaman 1</h2><p>13 Januari 2026<br>Aku mengalami masalah di mataku. Saat itu muncul pikiran untuk menjauh dari dunia sosial media, menghilang dari semua orang… tapi rencanaku gagal.</p></div>
+  <div class="page"><h2>Halaman 2</h2><p>16 Januari 2026<br>Aku hanya menceritakan ini pada lima orang terdekat:<br>- Lia<br>- Adik Nur<br>- Adik Ulfa<br>- Kakakku<br>- Mantanku</p></div>
+  <div class="page"><h2>Halaman 3</h2><p>16 Januari 2026<br>Aku menunjukkan foto mataku yang berdarah kepada adikku.</p>
+    <a class="download" href="https://i.postimg.cc/XJQ0WcFH/Screenshot-2026-02-15-15-55-14-69-7352322957d4404136654ef4adb64504.jpg" download="AdekNur.jpg">Download Foto Adek Nur</a>
+  </div>
+  <div class="page"><h2>Halaman 4</h2><p>17 Januari 2026</p>
+    <a class="download" href="https://i.postimg.cc/T3w5vCD7/Screenshot-2026-02-15-15-56-50-73.jpg" download="AdekNur2.jpg">Download Foto Adek Nur</a>
+    <a class="download" href="https://i.postimg.cc/4dXB56rz/Screenshot-2026-02-15-15-58-33-03-7352322957d4404136654ef4adb64504.jpg" download="AdekUlfa.jpg">Download Foto Adek Ulfa</a>
+  </div>
+  <div class="page"><h2>Halaman 5</h2><p>Kenapa aku hanya menunjukkan foto rumah sakit ke kedua adikku? Itu pertanyaan mudah, sebenarnya tidak perlu aku tuliskan di sini. Tapi tetap akan kuberitahu: aku hanya percaya pada mereka.</p></div>
+  <div class="page"><h2>Halaman 6</h2><p><strong>Adek Nur:</strong><br>“Dia masih di grup, dan bisa menyebarkan ke semua orang yang ada di grup.”</p></div>
+  <div class="page"><h2>Halaman 7</h2><p><strong>Adek Ulfa:</strong><br>“Saya hanya menunjukkan foto itu sekali saja. Kenapa? Karena dia tidak berada di grup. Dia sudah dibicarakan dari belakang oleh ular berkepala dua—bukan maksudku orang. Dia tidak akan mendapat info apapun dari abangnya.”</p></div>
+  <div class="page"><h2>Halaman 8</h2><p>Kenapa aku tidak menunjukkan foto rumah sakit ke mantan dan Lia? Entahlah… ada perasaan aneh, yang membuatku merasa tidak enak. Itu memang terjadi begitu saja.</p></div>
+  <div class="page"><h2>Halaman 9</h2><p>Aku sengaja menciptakan drama, seperti anggota grupku di 2023 yang berpura-pura mati… tapi aku membuatnya lebih dramatis.</p></div>
+  <div class="page"><h2>Halaman 10</h2><p>Akhirnya, semua rencanaku untuk “pergi selamanya” gagal. Aku kepikiran tentang kakak dan kedua adikku… dan aku tak tega meninggalkan mereka.</p></div>
+</div>
+
+<div class="nav-container">
+  <button class="nav-btn" id="prevBtn">&lt; Sebelumnya</button>
+  <button class="nav-btn" id="nextBtn">Berikutnya &gt;</button>
+</div>
+
+<script>
+$(document).ready(function(){
+  $("#book").turn({
+    width: $("#book").width(),
+    height: $("#book").height(),
+    autoCenter: true,
+    display: 'single', // tampilkan 1 halaman saja untuk HP
+    acceleration: true
+  });
+
+  $("#prevBtn").click(function(){ $("#book").turn("previous"); });
+  $("#nextBtn").click(function(){ $("#book").turn("next"); });
+});
+</script>
+
+</body>
+</html>
